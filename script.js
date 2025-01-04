@@ -9,33 +9,43 @@ function addTask() {
         li.innerHTML = inputBox.value;
 
         let span = document.createElement("span");
-        span.innerHTML = "\u00d7"; 
-
+        span.innerHTML = "\u00d7";
         li.appendChild(span);
-        listContainer.appendChild(li); 
+        listContainer.appendChild(li);
     }
-    inputBox.value = ""; 
-    saveData(); 
+    inputBox.value = "";
+    saveData();
 }
 
 listContainer.addEventListener('click', function (e) {
     if (e.target.tagName === "LI") {
-        e.target.classList.toggle("checked"); 
-        saveData(); 
+        e.target.classList.toggle("checked");
+        saveData();
     } else if (e.target.tagName === "SPAN") {
-        e.target.parentElement.remove(); 
+        e.target.parentElement.remove();
         saveData();
     }
 }, false);
 
+listContainer.addEventListener('dblclick', function (e) {
+    if (e.target.tagName === "LI") {
+        const currentText = e.target.firstChild.textContent.trim();
+        const newText = prompt("Update your task:", currentText);
+        if (newText !== null && newText.trim() !== "") {
+            e.target.firstChild.textContent = newText.trim();
+            saveData();
+        }
+    }
+}, false);
+
 function saveData() {
-    localStorage.setItem("data", listContainer.innerHTML); 
+    localStorage.setItem("data", listContainer.innerHTML);
 }
 
 function showTask() {
-    const savedData = localStorage.getItem("data"); 
+    const savedData = localStorage.getItem("data");
     if (savedData) {
-        listContainer.innerHTML = savedData; 
+        listContainer.innerHTML = savedData;
     }
 }
 
